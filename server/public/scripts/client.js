@@ -3,7 +3,23 @@ $( document ).ready( onReady );
 function onReady(){
     getSongs();
     $( '#addSongButton' ).on( 'click', addSong );
+    $(document).on('click', '.deleteSongBtn', deleteSong);
 } // end onReady
+
+function deleteSong() {
+    // let songID = 'ribbit';  // to do
+    let songID = $(this).data('id');
+
+    $.ajax({
+        method: 'DELETE',
+        url: `/songs/${songID}`
+    }).then(function(response) {
+        console.log('deleted', response);
+    }).catch(function(err) {
+        console.log('error', err);
+        alert('red light')
+    })
+}
 
 function addSong(){
     let objectToSend = {
@@ -39,6 +55,7 @@ function getSongs(){
             ${ response[i].track }
             ${ response[i].artist }
             ${ response[i].published.split( 'T' )[0] }
+            <button class="deleteSongBtn" data-id="${response[i].id}">Scrap It</button>
             </li>`)
         } // end for
     }).catch( function( err ){

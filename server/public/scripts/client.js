@@ -15,6 +15,8 @@ function deleteSong() {
         url: `/songs/${songID}`
     }).then(function(response) {
         console.log('deleted', response);
+        // to do refresh page aka get that data
+        getSongs();
     }).catch(function(err) {
         console.log('error', err);
         alert('red light')

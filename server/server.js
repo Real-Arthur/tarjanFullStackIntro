@@ -43,6 +43,8 @@ app.get( '/songs', ( req, res )=>{
 
 // GET a single song
 // Endpoint: GET /songs/id
+// id is the parameter
+// req.params.>id<
 app.get('/songs/:id', (req, res) => {
     console.log('song id to retrieve', req.params.id);
 
@@ -93,3 +95,8 @@ app.delete('/songs/:id', (req, res) => {
             res.sendStatus(500);
         })
 })
+
+app.put( '/songs/:id', (req, res)=> {
+    console.log('params', req.params.id, req.body);
+    res.sendStatus(200);
+});

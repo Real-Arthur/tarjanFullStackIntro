@@ -4,6 +4,8 @@ function onReady(){
     getSongs();
     $( '#addSongButton' ).on( 'click', addSong );
     $(document).on('click', '.deleteSongBtn', deleteSong);
+    $(document).on('click', '.rankUpBtn', moveSongUp);
+    $(document).on('click', '.rankDownBtn', moveSongDown);
 } // end onReady
 
 function deleteSong() {
@@ -12,7 +14,7 @@ function deleteSong() {
 
     $.ajax({
         method: 'DELETE',
-        url: `/songs/${songID}`
+        url: `/songs/${songId}`
     }).then(function(response) {
         console.log('deleted', response);
         // to do refresh page aka get that data
@@ -58,6 +60,8 @@ function getSongs(){
             ${ response[i].artist }
             ${ response[i].published.split( 'T' )[0] }
             <button class="deleteSongBtn" data-id="${response[i].id}">Scrap It</button>
+            <button class="rankUpBtn" data-id="${response[i].id}">Up</button>
+            <button class="rankDownBtn" data-id="${response[i].id}">Down</button>
             </li>`)
         } // end for
     }).catch( function( err ){
@@ -65,3 +69,24 @@ function getSongs(){
         console.log( err );
     }) // end AJAX GET
 } // end getSongs()
+
+function moveSongUp() {
+    let songID = $(this).data('id');
+    console.log('In Rank Up', songID);
+    $.ajax({
+        method: 'PUT',
+        url: `/songs/${songID}`,
+        data: {
+            direction: 'up'
+        }
+    }).then(function(response) {
+        console.log('response from RankUp',response);
+    }).catch( function( err ){
+        alert( 'error on rank up!' );
+        console.log( err );
+    })
+}
+function moveSongDown() {
+    let songID = $(this).data('id');
+    console.log('In Rank Down', songID);
+}

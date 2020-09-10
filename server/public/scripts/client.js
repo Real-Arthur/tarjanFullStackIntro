@@ -10,7 +10,7 @@ function onReady(){
 
 function deleteSong() {
     // let songID = 'ribbit';  // to do
-    let songID = $(this).data('id');
+    let songId = $(this).data('id');
 
     $.ajax({
         method: 'DELETE',
@@ -71,22 +71,36 @@ function getSongs(){
 } // end getSongs()
 
 function moveSongUp() {
-    let songID = $(this).data('id');
-    console.log('In Rank Up', songID);
+    let songId = $(this).data('id');
+    console.log('In Rank Up', songId);
     $.ajax({
         method: 'PUT',
-        url: `/songs/${songID}`,
+        url: `/songs/${songId}`,
         data: {
             direction: 'up'
         }
     }).then(function(response) {
         console.log('response from RankUp',response);
+        getSongs();
     }).catch( function( err ){
         alert( 'error on rank up!' );
         console.log( err );
     })
 }
 function moveSongDown() {
-    let songID = $(this).data('id');
-    console.log('In Rank Down', songID);
+    let songId = $(this).data('id');
+    console.log('In Rank Down', songId);
+    $.ajax({
+        method: 'PUT',
+        url: `/songs/${songId}`,
+        data: {
+            direction: 'down'
+        }
+    }).then(function(response) {
+        console.log('response from rankDown', response);
+        getSongs();
+    }).catch(function (err) {
+        alert( 'error on rank down!');
+        console.log( err );      
+    })
 }
